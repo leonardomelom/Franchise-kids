@@ -46,6 +46,8 @@ Campos úteis no `dataLayer`:
 
 Cada envio válido fica em `data/leads.json` (pasta ignorada pelo git) e, se `LEAD_WEBHOOK_URL` estiver definido, segue em POST JSON para esse endereço. O corpo inclui `qualified` e `gtm_event` (`lead_qualificado` ou `null`). Se o destino exigir segredo, use `LEAD_WEBHOOK_SECRET`.
 
+Na Vercel o disco é somente leitura, então `data/leads.json` não é gravado e `LEAD_WEBHOOK_URL` passa a ser obrigatório. Sem webhook nem arquivo, a API responde erro em vez de confirmar um lead que não foi guardado.
+
 ## Antes de veicular anúncio
 
 A página não publica investimento, taxa, faturamento, payback nem prazo de retorno. Isso fica para a proposta formal. Antes de ligar mídia, confirme:

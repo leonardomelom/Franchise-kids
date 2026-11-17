@@ -43,23 +43,42 @@ export function saveLead(lead: LeadInput & { id: string }): Promise<StoredLead> 
 }
 
 async function persist(lead: StoredLead) {
-  await mkdir(path.dirname(filePath), { recursive: true })
-  let current: StoredLead[] = []
-  try {
-    const parsed = JSON.parse(await readFile(filePath, "utf8")) as unknown
-    if (Array.isArray(parsed)) current = parsed as StoredLead[]
-  } catch {
-    current = []
+  const savedToFile = await saveToFile(lead)
+  const sentToWebhook = await sendWebhook(lead)
+  console.info("[leads] stored", {
+    id: lead.id,
+    qualified: lead.qualified,
+    file: savedToFile,
+    webhook: sentToWebhook,
+  })
+  // Na Vercel o disco é somente leitura: sem webhook, o lead se perderia.
+  // Melhor falhar e a pessoa ver o erro do que mostrar "recebemos" sem ter guardado.
+  if (!savedToFile && !sentToWebhook) {
+    throw new Error("lead not persisted")
   }
-  current.push(lead)
-  await writeFile(filePath, JSON.stringify(current, null, 2))
-  console.info("[leads] stored", { id: lead.id, qualified: lead.qualified })
-  await sendWebhook(lead)
 }
 
-async function sendWebhook(lead: StoredLead) {
+async function saveToFile(lead: StoredLead): Promise<boolean> {
+  try {
+    await mkdir(path.dirname(filePath), { recursive: true })
+    let current: StoredLead[] = []
+    try {
+      const parsed = JSON.parse(await readFile(filePath, "utf8")) as unknown
+      if (Array.isArray(parsed)) current = parsed as StoredLead[]
+    } catch {
+      current = []
+    }
+    current.push(lead)
+    await writeFile(filePath, JSON.stringify(current, null, 2))
+    return true
+  } catch {
+    return false
+  }
+}
+
+async function sendWebhook(lead: StoredLead): Promise<boolean> {
   const url = process.env.LEAD_WEBHOOK_URL
-  if (!url || !/^https?:\/\//.test(url)) return
+  if (!url || !/^https?:\/\//.test(url)) return false
 
   const headers: Record<string, string> = {
     "content-type": "application/json",
@@ -77,8 +96,11 @@ async function sendWebhook(lead: StoredLead) {
     })
     if (!response.ok) {
       console.error("[leads] webhook failed", { id: lead.id, status: response.status })
+      return false
     }
+    return true
   } catch {
     console.error("[leads] webhook failed", { id: lead.id })
+    return false
   }
 }
