@@ -1,5 +1,6 @@
 "use client"
 
+import { AnimatePresence, motion } from "motion/react"
 import { useEffect, useState } from "react"
 
 import { ConhecerCta } from "@/components/conhecer-cta"
@@ -28,11 +29,20 @@ export function StickyCta() {
     return () => observer.disconnect()
   }, [])
 
-  if (covered) return null
-
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-paper/95 p-3 backdrop-blur md:hidden">
-      <ConhecerCta />
-    </div>
+    <AnimatePresence>
+      {covered ? null : (
+        <motion.div
+          key="sticky-cta"
+          initial={{ y: "110%" }}
+          animate={{ y: 0 }}
+          exit={{ y: "110%" }}
+          transition={{ type: "spring", stiffness: 320, damping: 32 }}
+          className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-paper/95 p-3 backdrop-blur md:hidden"
+        >
+          <ConhecerCta />
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }

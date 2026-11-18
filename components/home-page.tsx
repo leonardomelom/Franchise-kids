@@ -1,31 +1,69 @@
+import {
+  Brain,
+  Check,
+  DoorOpen,
+  FileWarning,
+  HeartHandshake,
+  MapPin,
+  ShieldAlert,
+  Stethoscope,
+  UserMinus,
+} from "lucide-react"
+import type { ReactNode } from "react"
+
 import { BrandMark } from "@/components/brand-mark"
 import { ConhecerCta } from "@/components/conhecer-cta"
 import { LeadForm } from "@/components/lead-form"
+import {
+  Counter,
+  GrowBar,
+  Highlight,
+  ModelFlow,
+  MotionProvider,
+  Reveal,
+  ScrollHeader,
+  Stagger,
+  StaggerItem,
+} from "@/components/motion"
 import { StickyCta } from "@/components/sticky-cta"
 
-const proof = [
+const proof: { value: ReactNode; label: string }[] = [
   { value: "Desde 1995", label: "operação própria" },
-  { value: "3 unidades", label: "em operação" },
-  { value: "41 profissionais", label: "na operação atual" },
-  { value: "7 convênios", label: "credenciados" },
+  { value: <><Counter to={3} /> unidades</>, label: "em operação" },
+  { value: <><Counter to={41} /> profissionais</>, label: "na operação atual" },
+  { value: <><Counter to={7} /> convênios</>, label: "credenciados" },
 ]
+
+const insurers = ["Amil", "Unimed", "NotreDame Intermédica", "Bradesco", "SulAmérica", "DIX", "Next"]
 
 const breaks = [
   {
+    icon: ShieldAlert,
     title: "Credenciamento que não sai.",
     body: "Operadora não credencia quem não tem histórico, e sem convênio a agenda não enche.",
+    bar: "bg-brand",
+    chip: "bg-brand/10 text-brand",
   },
   {
+    icon: FileWarning,
     title: "Glosa.",
     body: "Faturamento mal feito vira dinheiro que você já trabalhou e não vai receber.",
+    bar: "bg-sun",
+    chip: "bg-sun/25 text-ink",
   },
   {
+    icon: DoorOpen,
     title: "Sala ociosa.",
     body: "Terapia é ocupação. Sala parada é custo fixo rodando contra você.",
+    bar: "bg-pop",
+    chip: "bg-pop/10 text-pop",
   },
   {
+    icon: UserMinus,
     title: "Paciente que some.",
     body: "Sem porta de entrada própria, cada paciente novo custa mídia que o ticket não paga.",
+    bar: "bg-cyan",
+    chip: "bg-cyan/15 text-brand",
   },
 ]
 
@@ -44,19 +82,28 @@ const units = [
     place: "Centro",
     address: "R. Conde de Porto Alegre, 422",
     note: "Em operação desde 1995",
+    bar: "bg-brand",
   },
   {
     city: "Nova Iguaçu",
     place: "Centro",
     address: "R. Dr. Barros Júnior, 272, sala 8",
     note: "Em operação",
+    bar: "bg-sun",
   },
   {
     city: "São Conrado",
     place: "Rio de Janeiro",
     address: "Estr. da Gávea, 847, loja 113",
     note: "Em operação",
+    bar: "bg-cyan",
   },
+]
+
+const credentials = [
+  "Três títulos de especialista",
+  "36 anos de Souza Aguiar",
+  "Pós em Psiquiatria da Infância pelo Einstein",
 ]
 
 const profiles = [
@@ -64,17 +111,29 @@ const profiles = [
     kicker: "Maior aderência",
     title: "Profissional de saúde com consultório próprio",
     body: "Você quer escalar para além do seu horário, sem montar do zero protocolo, convênio e gestão.",
+    featured: true,
   },
   {
     kicker: "Operação",
     title: "Médico ou gestor",
     body: "Busca uma operação com receita recorrente, não mais um plantão.",
+    featured: false,
   },
   {
     kicker: "Capital",
     title: "Investidor com sócio operador",
     body: "Entra com capital e precisa de alguém da área dentro da operação.",
+    featured: false,
   },
+]
+
+const market: ReactNode[] = [
+  "A cobertura de terapias para TEA é obrigatória por lei desde 2022.",
+  <>
+    O SUS registrou alta de <span className="text-sun"><Counter to={84} suffix="%" /></span> nos
+    atendimentos.
+  </>,
+  "A oferta não acompanhou: a fila é real em quase toda região metropolitana.",
 ]
 
 const questions = [
@@ -108,10 +167,131 @@ const questions = [
   },
 ]
 
+function Blobs({ tone = "light" }: { tone?: "light" | "dark" }) {
+  const dark = tone === "dark"
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div
+        className={`absolute -top-32 -left-32 size-[28rem] animate-blob rounded-full blur-3xl bg-cyan/25`}
+      />
+      <div
+        className={`absolute top-10 -right-40 size-[30rem] animate-blob rounded-full blur-3xl [animation-delay:-7s] ${dark ? "bg-sun/15" : "bg-sun/30"}`}
+      />
+      <div
+        className={`absolute -bottom-40 left-1/3 size-[26rem] animate-blob rounded-full blur-3xl [animation-delay:-13s] ${dark ? "bg-brand/40" : "bg-brand/15"}`}
+      />
+      <div
+        className={`absolute inset-0 bg-[radial-gradient(currentColor_1px,transparent_1px)] [background-size:22px_22px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)] ${dark ? "text-white opacity-[0.06]" : "text-brand opacity-[0.08]"}`}
+      />
+    </div>
+  )
+}
+
+function FloatingChip({
+  className,
+  delay,
+  value,
+  label,
+  dot,
+}: {
+  className: string
+  delay: string
+  value: string
+  label: string
+  dot: string
+}) {
+  return (
+    <div className={`absolute z-10 animate-pop-in ${className}`} style={{ animationDelay: delay }}>
+      <div className="flex animate-float items-center gap-3 rounded-2xl border border-white bg-white/95 px-4 py-3 shadow-[0_20px_40px_-16px_rgb(2_119_189/0.45)] backdrop-blur">
+        <span className={`size-2.5 rounded-full ${dot}`} />
+        <div>
+          <p className="text-lg leading-none font-extrabold text-ink">{value}</p>
+          <p className="mt-1 text-xs text-muted-foreground">{label}</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function HeroVisual() {
+  const steps = [
+    {
+      icon: Stethoscope,
+      title: "Pediatria",
+      body: "A família entra por uma queixa pediátrica.",
+      tone: "bg-brand text-white",
+    },
+    {
+      icon: Brain,
+      title: "Neurologia e nutrição",
+      body: "Encaminhamento interno, no mesmo endereço.",
+      tone: "bg-cyan text-white",
+    },
+    {
+      icon: HeartHandshake,
+      title: "Equipe de terapia",
+      body: "Atendimento pontual vira acompanhamento semanal.",
+      tone: "bg-sun text-ink",
+    },
+  ]
+
+  return (
+    <div className="relative mx-auto w-full max-w-md animate-rise [animation-delay:250ms] lg:mx-0 lg:ml-auto">
+      <div className="absolute -inset-6 -z-10 rounded-[2.5rem] bg-gradient-to-br from-cyan/30 via-sun/25 to-brand/25 blur-2xl" />
+      <div className="relative overflow-hidden rounded-[2rem] border border-white bg-white/90 p-6 shadow-[0_30px_60px_-24px_rgb(2_119_189/0.45)] backdrop-blur sm:p-7">
+        <p className="text-xs tracking-[0.16em] text-muted-foreground uppercase">O que já está de pé</p>
+        <p className="mt-3 font-serif text-2xl leading-snug text-ink">
+          Três endereços. Um funil dentro da própria unidade.
+        </p>
+
+        <ol className="relative mt-7 grid gap-5">
+          <div
+            aria-hidden="true"
+            className="absolute top-5 bottom-5 left-[1.3rem] w-0.5 bg-gradient-to-b from-brand via-cyan to-sun opacity-40"
+          />
+          <div aria-hidden="true" className="absolute top-5 bottom-5 left-[1.3rem] w-0.5">
+            <span className="absolute -left-[4px] size-2.5 animate-travel rounded-full bg-brand ring-4 ring-brand/20" />
+          </div>
+          {steps.map((step, index) => (
+            <li
+              key={step.title}
+              className="relative grid animate-rise grid-cols-[2.75rem_1fr] items-center gap-4"
+              style={{ animationDelay: `${550 + index * 180}ms` }}
+            >
+              <span className={`flex size-11 items-center justify-center rounded-2xl shadow-md ${step.tone}`}>
+                <step.icon className="size-5" aria-hidden="true" />
+              </span>
+              <div>
+                <p className="font-extrabold text-ink">{step.title}</p>
+                <p className="text-sm leading-snug text-muted-foreground">{step.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <FloatingChip
+        className="-top-6 -right-2 sm:-right-8"
+        delay="1.1s"
+        value="37 terapeutas"
+        label="na operação atual"
+        dot="bg-sun"
+      />
+      <FloatingChip
+        className="-bottom-12 -left-2 sm:-left-8"
+        delay="1.3s"
+        value="7 convênios"
+        label="credenciados"
+        dot="bg-cyan"
+      />
+    </div>
+  )
+}
+
 export function HomePage() {
   return (
-    <>
-      <header className="sticky top-0 z-40 border-b border-sky bg-white/95 backdrop-blur">
+    <MotionProvider>
+      <ScrollHeader>
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
           <div className="flex items-center gap-3">
             <BrandMark priority />
@@ -123,196 +303,323 @@ export function HomePage() {
             <ConhecerCta />
           </div>
         </div>
-      </header>
+      </ScrollHeader>
 
       <main className="pb-24 md:pb-0">
-        <section className="relative overflow-hidden bg-sky/60">
-          <div className="relative mx-auto grid max-w-6xl gap-10 px-5 py-16 md:py-20 lg:grid-cols-[1.3fr_0.7fr] lg:items-end">
+        {/* 1. Hero */}
+        <section className="relative -mt-[4.5rem] overflow-hidden bg-gradient-to-b from-sky via-sky/40 to-white pt-[4.5rem] sm:-mt-20 sm:pt-20">
+          <Blobs />
+          <div className="relative mx-auto grid max-w-6xl gap-16 px-5 pt-12 pb-20 md:pt-16 md:pb-28 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-10">
             <div>
-              <div className="flex gap-2" aria-hidden="true">
-                <span className="size-5 rounded-md bg-brand" />
-                <span className="size-5 rounded-md bg-sun" />
-                <span className="size-5 rounded-md bg-pop" />
-              </div>
-              <p className="mt-4 text-sm font-extrabold tracking-wide text-brand uppercase">
+              <p className="inline-flex animate-rise items-center gap-2.5 rounded-full border border-brand/15 bg-white/80 px-3.5 py-1.5 text-xs font-extrabold tracking-wide text-brand uppercase shadow-sm backdrop-blur">
+                <span className="relative flex size-2">
+                  <span className="absolute inset-0 animate-pulse-ring rounded-full bg-cyan" />
+                  <span className="relative size-2 rounded-full bg-cyan" />
+                </span>
                 Clínica infantil multidisciplinar · Rio de Janeiro
               </p>
-              <h1 className="mt-4 max-w-3xl text-[2.55rem] leading-[1.05] text-brand sm:text-6xl sm:leading-[1.02]">
-                Você já sabe operar uma clínica.
-                <span className="mt-3 block">O que falta é não começar do zero.</span>
+              <h1 className="mt-6 max-w-3xl text-[2.55rem] leading-[1.05] text-brand sm:text-6xl sm:leading-[1.02]">
+                <span className="block animate-rise [animation-delay:100ms]">
+                  Você já sabe operar uma clínica.
+                </span>
+                <span className="mt-3 block animate-rise text-ink [animation-delay:220ms]">
+                  O que falta é não{" "}
+                  <span className="relative isolate inline-block whitespace-nowrap">
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-x-[-0.1em] bottom-[0.04em] -z-10 h-[0.36em] origin-left animate-draw rounded-full bg-sun [animation-delay:900ms]"
+                    />
+                    começar do zero.
+                  </span>
+                </span>
               </h1>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-foreground/80">
+              <p className="mt-6 max-w-xl animate-rise text-lg leading-relaxed text-foreground/80 [animation-delay:340ms]">
                 A Só Crianças abre unidades franqueadas. Modelo multidisciplinar validado desde
                 1995, com três unidades próprias em operação no Rio de Janeiro.
               </p>
-              <div id="hero-cta" className="mt-8">
+              <div id="hero-cta" className="mt-8 animate-rise [animation-delay:460ms]">
                 <ConhecerCta />
               </div>
-              <p className="mt-4 text-sm text-muted-foreground">
+              <p className="mt-4 animate-rise text-sm text-muted-foreground [animation-delay:560ms]">
                 Leva cerca de dois minutos. Retorno em até 1 dia útil, no WhatsApp.
               </p>
             </div>
-            <aside className="rounded-3xl border border-white bg-white p-6 shadow-sm">
-              <p className="text-xs tracking-[0.16em] text-muted-foreground uppercase">
-                O que já está de pé
-              </p>
-              <p className="mt-4 font-serif text-2xl leading-snug text-ink">
-                Três endereços. Um funil dentro da própria unidade.
-              </p>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                A família entra pela queixa pediátrica e encontra, no mesmo lugar, neurologia,
-                nutrição e a equipe de terapia.
-              </p>
-            </aside>
+            <HeroVisual />
           </div>
         </section>
 
-        <section aria-label="Prova de operação" className="bg-moss text-paper">
-          <dl className="mx-auto grid max-w-6xl grid-cols-2 md:grid-cols-4">
+        {/* 2. Barra de prova */}
+        <section aria-label="Prova de operação" className="relative overflow-hidden bg-brand text-paper">
+          <div
+            aria-hidden="true"
+            className="absolute -top-24 right-0 size-72 animate-blob rounded-full bg-cyan/40 blur-3xl"
+          />
+          <Stagger as="dl" className="relative mx-auto grid max-w-6xl grid-cols-2 md:grid-cols-4">
             {proof.map((item) => (
-              <div key={item.value} className="border-paper/15 px-5 py-6 md:border-l md:first:border-l-0">
+              <StaggerItem
+                key={item.label}
+                className="border-paper/15 px-5 py-7 md:border-l md:first:border-l-0"
+              >
                 <dt className="font-serif text-2xl tracking-tight sm:text-3xl">{item.value}</dt>
                 <dd className="mt-1 text-sm text-paper/75">{item.label}</dd>
-              </div>
+              </StaggerItem>
             ))}
-          </dl>
-          <p className="mx-auto max-w-6xl px-5 pb-6 text-sm text-paper/70">
-            Amil · Unimed · NotreDame Intermédica · Bradesco · SulAmérica · DIX · Next
-          </p>
+          </Stagger>
+          <div className="relative border-t border-paper/15 py-4 [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
+            <div className="flex w-max animate-marquee gap-3 hover:[animation-play-state:paused]">
+              {[0, 1].map((copy) => (
+                <ul key={copy} aria-hidden={copy === 1} className="flex gap-3">
+                  {insurers.map((name) => (
+                    <li
+                      key={name}
+                      className="rounded-full border border-paper/20 bg-paper/10 px-4 py-1.5 text-sm font-semibold whitespace-nowrap text-paper/90"
+                    >
+                      {name}
+                    </li>
+                  ))}
+                </ul>
+              ))}
+            </div>
+          </div>
         </section>
 
+        {/* 3. O problema */}
         <section className="mx-auto grid max-w-6xl gap-8 px-5 py-20 md:grid-cols-2 md:py-28">
-          <h2 className="font-serif text-4xl leading-[1.05] tracking-tight text-ink md:text-5xl">
-            Consultório cheio não é o mesmo que negócio.
-          </h2>
-          <div className="text-lg leading-relaxed text-foreground/80">
+          <Reveal>
+            <h2 className="font-serif text-4xl leading-[1.05] tracking-tight text-ink md:text-5xl">
+              Consultório cheio não é o mesmo que negócio.
+            </h2>
+          </Reveal>
+          <Reveal delay={0.12} className="text-lg leading-relaxed text-foreground/80">
             <p>
               Você atende bem. A agenda está cheia. E mesmo assim o mês fecha apertado, porque
-              consultório tem teto: o seu próprio tempo. Para crescer, você precisaria contratar,
-              credenciar, montar faturamento, estruturar protocolo e aprender gestão.
+              consultório tem teto: <Highlight>o seu próprio tempo.</Highlight> Para crescer, você
+              precisaria contratar, credenciar, montar faturamento, estruturar protocolo e aprender
+              gestão.
             </p>
             <p className="mt-4">
               Cada uma dessas coisas levou anos para a gente acertar, e algumas a gente acertou
               errando.
             </p>
-          </div>
+          </Reveal>
         </section>
 
+        {/* 4. Agitação */}
         <section className="bg-sand">
           <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
-            <h2 className="max-w-2xl font-serif text-4xl leading-[1.05] tracking-tight text-ink md:text-5xl">
-              O que quebra clínica de terapia no primeiro ano.
-            </h2>
-            <div className="mt-12 grid gap-4 md:grid-cols-2">
+            <Reveal>
+              <h2 className="max-w-2xl font-serif text-4xl leading-[1.05] tracking-tight text-ink md:text-5xl">
+                O que quebra clínica de terapia no primeiro ano.
+              </h2>
+            </Reveal>
+            <Stagger className="mt-12 grid gap-4 md:grid-cols-2">
               {breaks.map((item, index) => (
-                <article key={item.title} className="overflow-hidden rounded-3xl border border-sky bg-white shadow-sm">
-                  <div className={["h-1.5 bg-brand", "h-1.5 bg-sun", "h-1.5 bg-pop", "h-1.5 bg-brand"][index]} />
+                <StaggerItem
+                  key={item.title}
+                  as="article"
+                  className="group overflow-hidden rounded-3xl border border-sky bg-white shadow-sm transition-[transform,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_24px_48px_-20px_rgb(2_119_189/0.35)]"
+                >
+                  <GrowBar className={`h-1.5 ${item.bar}`} delay={0.2 + index * 0.1} />
                   <div className="p-6">
-                  <p className="font-serif text-sm text-brand">0{index + 1}</p>
-                  <h3 className="mt-3 font-serif text-2xl text-ink">{item.title}</h3>
-                  <p className="mt-3 leading-relaxed text-foreground/80">{item.body}</p>
+                    <div className="flex items-center justify-between">
+                      <span
+                        className={`flex size-11 items-center justify-center rounded-2xl transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6 ${item.chip}`}
+                      >
+                        <item.icon className="size-5" aria-hidden="true" />
+                      </span>
+                      <p className="font-serif text-sm text-brand/60">0{index + 1}</p>
+                    </div>
+                    <h3 className="mt-4 font-serif text-2xl text-ink">{item.title}</h3>
+                    <p className="mt-3 leading-relaxed text-foreground/80">{item.body}</p>
                   </div>
-                </article>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           </div>
         </section>
 
+        {/* 5. A solução */}
         <section className="mx-auto max-w-6xl px-5 py-20 md:py-28">
-          <p className="text-sm font-medium tracking-wide text-moss">O modelo</p>
-          <h2 className="mt-3 max-w-3xl font-serif text-4xl leading-[1.05] tracking-tight text-ink md:text-5xl">
-            A criança chega pelo médico e fica pela terapia.
-          </h2>
-          <div className="mt-8 max-w-2xl text-lg leading-relaxed text-foreground/80">
-            <p>
-              Esse é o modelo Só Crianças. A família procura a clínica por uma queixa pediátrica, e
-              encontra no mesmo endereço a neurologia, a nutrição e a equipe de terapia. O
-              pediatra identifica, encaminha internamente, e a unidade transforma atendimento
-              pontual em acompanhamento semanal.
-            </p>
-            <p className="mt-4">
-              É por isso que a clínica cresceu de uma psicóloga, em 2011, para 37 terapeutas, sem
-              nunca ter dependido de anúncio para encher agenda.
-            </p>
-            <p className="mt-4 text-ink">
-              Para quem está abrindo, isso significa uma coisa só: a unidade gera o próprio
-              paciente.
-            </p>
+          <Reveal>
+            <p className="text-sm font-medium tracking-wide text-moss">O modelo</p>
+            <h2 className="mt-3 max-w-3xl font-serif text-4xl leading-[1.05] tracking-tight text-ink md:text-5xl">
+              A criança chega pelo médico e fica pela terapia.
+            </h2>
+          </Reveal>
+          <div className="mt-8 grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+            <Reveal delay={0.1} className="max-w-2xl text-lg leading-relaxed text-foreground/80">
+              <p>
+                Esse é o modelo Só Crianças. A família procura a clínica por uma queixa pediátrica,
+                e encontra no mesmo endereço a neurologia, a nutrição e a equipe de terapia. O
+                pediatra identifica, encaminha internamente, e a unidade transforma atendimento
+                pontual em acompanhamento semanal.
+              </p>
+              <p className="mt-4">
+                É por isso que a clínica cresceu de uma psicóloga, em 2011, para 37 terapeutas, sem
+                nunca ter dependido de anúncio para encher agenda.
+              </p>
+              <p className="mt-4 text-ink">
+                Para quem está abrindo, isso significa uma coisa só:{" "}
+                <Highlight>a unidade gera o próprio paciente.</Highlight>
+              </p>
+            </Reveal>
+            <Reveal delay={0.2} x={30} y={0}>
+              <div className="relative overflow-hidden rounded-3xl bg-ink p-7 text-paper shadow-[0_30px_60px_-24px_rgb(22_50_74/0.6)]">
+                <div
+                  aria-hidden="true"
+                  className="absolute -top-16 -right-16 size-48 animate-blob rounded-full bg-cyan/40 blur-3xl"
+                />
+                <p className="relative text-xs tracking-[0.16em] text-paper/60 uppercase">
+                  Equipe de terapia
+                </p>
+                <div className="relative mt-6 grid gap-5">
+                  <div>
+                    <div className="flex items-baseline justify-between">
+                      <span className="text-sm text-paper/70">2011</span>
+                      <span className="font-serif text-2xl">1 psicóloga</span>
+                    </div>
+                    <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-paper/10">
+                      <GrowBar className="h-full w-[3%] rounded-full bg-paper/60" delay={0.3} />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex items-baseline justify-between">
+                      <span className="text-sm text-paper/70">Hoje</span>
+                      <span className="font-serif text-4xl text-sun">
+                        <Counter from={1} to={37} duration={2} /> terapeutas
+                      </span>
+                    </div>
+                    <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-paper/10">
+                      <GrowBar
+                        className="h-full w-full rounded-full bg-gradient-to-r from-cyan to-sun"
+                        delay={0.5}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <p className="relative mt-6 text-sm leading-relaxed text-paper/70">
+                  Sem investimento de aquisição: o paciente chega pela pediatria da casa.
+                </p>
+              </div>
+            </Reveal>
           </div>
-          <ol className="mt-12 grid gap-4 md:grid-cols-3">
-            {[
-              ["1", "A família entra", "por uma queixa pediátrica."],
-              ["2", "A casa encaminha", "neurologia, nutrição e terapia, no mesmo endereço."],
-              ["3", "A terapia fica", "consulta pontual vira acompanhamento semanal."],
-            ].map(([step, title, body]) => (
-              <li key={step} className="border-t border-clay pt-4">
-                <p className="font-serif text-sm text-clay">{step}</p>
-                <p className="mt-2 font-serif text-2xl text-ink">{title}</p>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
-              </li>
-            ))}
-          </ol>
+          <ModelFlow
+            steps={[
+              { title: "A família entra", body: "por uma queixa pediátrica.", tone: "brand" },
+              {
+                title: "A casa encaminha",
+                body: "neurologia, nutrição e terapia, no mesmo endereço.",
+                tone: "cyan",
+              },
+              {
+                title: "A terapia fica",
+                body: "consulta pontual vira acompanhamento semanal.",
+                tone: "sun",
+              },
+            ]}
+          />
         </section>
 
+        {/* 6. O que a franqueada recebe */}
         <section className="border-y border-border bg-card">
           <div className="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:grid-cols-[0.8fr_1.2fr] md:py-28">
-            <h2 className="font-serif text-4xl leading-[1.05] tracking-tight text-ink">
-              O que a franqueada recebe.
-            </h2>
+            <Reveal>
+              <h2 className="font-serif text-4xl leading-[1.05] tracking-tight text-ink md:sticky md:top-28">
+                O que a franqueada recebe.
+              </h2>
+            </Reveal>
             <div>
-              <ul className="grid gap-4">
+              <Stagger as="ul" className="grid gap-3">
                 {deliverables.map((item) => (
-                  <li key={item} className="border-b border-border pb-4 text-base leading-relaxed">
+                  <StaggerItem
+                    key={item}
+                    as="li"
+                    className="group flex items-start gap-4 rounded-2xl border border-border bg-white p-4 text-base leading-relaxed transition-colors duration-300 hover:border-brand/30 hover:bg-sky/50"
+                  >
+                    <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-brand text-white transition-transform duration-300 group-hover:scale-110">
+                      <Check className="size-4" strokeWidth={3} aria-hidden="true" />
+                    </span>
                     {item}
-                  </li>
+                  </StaggerItem>
                 ))}
-              </ul>
-              <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-                Condição comercial, taxa e investimento não estão nesta lista. Entram na proposta,
-                em documento formal.
-              </p>
+              </Stagger>
+              <Reveal delay={0.2}>
+                <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
+                  Condição comercial, taxa e investimento não estão nesta lista. Entram na proposta,
+                  em documento formal.
+                </p>
+              </Reveal>
             </div>
           </div>
         </section>
 
-        <section className="bg-sky">
-          <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
-            <h2 className="max-w-3xl font-serif text-4xl leading-[1.05] tracking-tight text-ink md:text-5xl">
-              Antes de franquear, a gente operou por trinta anos.
-            </h2>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-foreground/80">
-              A clínica nasceu de uma sala alugada em Caxias, cresceu quando a demanda empurrou, e
-              hoje é a maior clínica infantil multidisciplinar de Duque de Caxias.
-            </p>
-            <div className="mt-12 grid gap-4 md:grid-cols-3">
+        {/* 7. Prova de operação */}
+        <section className="relative overflow-hidden bg-sky">
+          <Blobs />
+          <div className="relative mx-auto max-w-6xl px-5 py-20 md:py-28">
+            <Reveal>
+              <h2 className="max-w-3xl font-serif text-4xl leading-[1.05] tracking-tight text-ink md:text-5xl">
+                Antes de franquear, a gente operou por <Highlight>trinta anos.</Highlight>
+              </h2>
+              <p className="mt-6 max-w-2xl text-lg leading-relaxed text-foreground/80">
+                A clínica nasceu de uma sala alugada em Caxias, cresceu quando a demanda empurrou,
+                e hoje é a maior clínica infantil multidisciplinar de Duque de Caxias.
+              </p>
+            </Reveal>
+            <Stagger className="mt-12 grid gap-4 md:grid-cols-3">
               {units.map((unit) => (
-                <article key={unit.city} className="rounded-3xl bg-white p-6 shadow-sm">
-                  <p className="text-xs font-extrabold tracking-[0.14em] text-brand uppercase">{unit.note}</p>
+                <StaggerItem
+                  key={unit.city}
+                  as="article"
+                  className="group relative overflow-hidden rounded-3xl bg-white p-6 shadow-sm transition-[transform,box-shadow] duration-500 hover:-translate-y-1.5 hover:shadow-[0_24px_48px_-20px_rgb(2_119_189/0.4)]"
+                >
+                  <span aria-hidden="true" className={`absolute inset-x-0 top-0 h-1.5 ${unit.bar}`} />
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs font-extrabold tracking-[0.14em] text-brand uppercase">
+                      {unit.note}
+                    </p>
+                    <MapPin
+                      className="size-5 text-cyan transition-transform duration-500 group-hover:-translate-y-1"
+                      aria-hidden="true"
+                    />
+                  </div>
                   <h3 className="mt-4 font-serif text-3xl text-ink">{unit.city}</h3>
                   <p className="mt-2 text-sm text-muted-foreground">{unit.place}</p>
                   <p className="mt-4 text-sm leading-relaxed text-foreground/80">{unit.address}</p>
-                </article>
+                </StaggerItem>
               ))}
-            </div>
-            <p className="mt-8 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              Hoje são 37 terapeutas e 4 médicos. Psicologia, fonoaudiologia, terapia ocupacional,
-              psicomotricidade e psicopedagogia convivem com pediatria, cirurgia pediátrica,
-              neurologia, nutrição e audiometria.
-            </p>
+            </Stagger>
+            <Reveal delay={0.1}>
+              <p className="mt-8 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                Hoje são 37 terapeutas e 4 médicos. Psicologia, fonoaudiologia, terapia
+                ocupacional, psicomotricidade e psicopedagogia convivem com pediatria, cirurgia
+                pediátrica, neurologia, nutrição e audiometria.
+              </p>
+            </Reveal>
           </div>
         </section>
 
+        {/* 8. A fundadora */}
         <section className="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:grid-cols-[0.9fr_1.1fr] md:py-28">
-          <div>
+          <Reveal x={-30} y={0}>
             <p className="text-sm font-medium tracking-wide text-moss">A fundadora</p>
             <h2 className="mt-3 font-serif text-4xl leading-[1.05] tracking-tight text-ink md:text-5xl">
               Dra. Ana Teresa Vacchiano
             </h2>
-            <p className="mt-3 text-sm text-muted-foreground">
-              Cirurgiã pediátrica · CRM-RJ 382028
-            </p>
-          </div>
-          <div className="text-lg leading-relaxed text-foreground/80">
+            <p className="mt-3 text-sm text-muted-foreground">Cirurgiã pediátrica · CRM-RJ 382028</p>
+            <Stagger as="ul" className="mt-8 flex flex-wrap gap-2">
+              {credentials.map((item) => (
+                <StaggerItem
+                  key={item}
+                  as="li"
+                  className="rounded-full border border-brand/15 bg-sky px-3.5 py-1.5 text-sm font-semibold text-brand"
+                >
+                  {item}
+                </StaggerItem>
+              ))}
+            </Stagger>
+          </Reveal>
+          <Reveal x={30} y={0} delay={0.1} className="text-lg leading-relaxed text-foreground/80">
             <p>
               Fundou a Só Crianças em Duque de Caxias. Três títulos de especialista, 36 anos de
               Souza Aguiar e pós em Psiquiatria da Infância pelo Einstein.
@@ -324,64 +631,88 @@ export function HomePage() {
             <p className="mt-4 text-base text-muted-foreground">
               É com ela, de par para par, que o perfil médico costuma se reconhecer.
             </p>
-          </div>
+          </Reveal>
         </section>
 
+        {/* 9. Perfil */}
         <section className="bg-sand">
           <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
-            <h2 className="max-w-3xl font-serif text-4xl leading-[1.05] tracking-tight text-ink md:text-5xl">
-              Esse modelo funciona melhor para quem já conhece o terreno.
-            </h2>
-            <div className="mt-12 grid gap-4 md:grid-cols-3">
+            <Reveal>
+              <h2 className="max-w-3xl font-serif text-4xl leading-[1.05] tracking-tight text-ink md:text-5xl">
+                Esse modelo funciona melhor para quem já conhece o terreno.
+              </h2>
+            </Reveal>
+            <Stagger className="mt-12 grid gap-4 md:grid-cols-3">
               {profiles.map((profile) => (
-                <article key={profile.title} className="rounded-3xl bg-white p-6 shadow-sm">
-                  <p className="text-xs tracking-[0.16em] text-clay uppercase">{profile.kicker}</p>
+                <StaggerItem
+                  key={profile.title}
+                  as="article"
+                  className={`rounded-3xl bg-white p-6 shadow-sm transition-[transform,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_24px_48px_-20px_rgb(2_119_189/0.35)] ${profile.featured ? "ring-2 ring-sun" : ""}`}
+                >
+                  <p
+                    className={`inline-block rounded-full px-2.5 py-1 text-[11px] font-extrabold tracking-[0.12em] uppercase ${profile.featured ? "bg-sun text-ink" : "bg-sky text-brand"}`}
+                  >
+                    {profile.kicker}
+                  </p>
                   <h3 className="mt-4 font-serif text-2xl leading-snug text-ink">{profile.title}</h3>
                   <p className="mt-3 leading-relaxed text-foreground/80">{profile.body}</p>
-                </article>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           </div>
         </section>
 
-        <section className="mx-auto max-w-6xl px-5 py-20 md:py-28">
-          <h2 className="font-serif text-4xl tracking-tight text-ink">O mercado, em três linhas.</h2>
-          <ol className="mt-10 grid gap-8">
-            {[
-              "A cobertura de terapias para TEA é obrigatória por lei desde 2022.",
-              "O SUS registrou alta de 84% nos atendimentos.",
-              "A oferta não acompanhou: a fila é real em quase toda região metropolitana.",
-            ].map((line, index) => (
-              <li key={line} className="grid gap-3 border-t border-border pt-6 md:grid-cols-[4rem_1fr]">
-                <span className="font-serif text-clay">0{index + 1}</span>
-                <p className="font-serif text-2xl leading-snug text-ink md:text-3xl">{line}</p>
-              </li>
-            ))}
-          </ol>
+        {/* 10. Mercado */}
+        <section className="relative overflow-hidden bg-ink text-paper">
+          <Blobs tone="dark" />
+          <div className="relative mx-auto max-w-6xl px-5 py-20 md:py-28">
+            <Reveal>
+              <h2 className="font-serif text-4xl tracking-tight">O mercado, em três linhas.</h2>
+            </Reveal>
+            <Stagger as="ol" className="mt-10 grid gap-8">
+              {market.map((line, index) => (
+                <StaggerItem
+                  key={index}
+                  as="li"
+                  className="grid gap-3 border-t border-paper/15 pt-6 md:grid-cols-[4rem_1fr]"
+                >
+                  <span className="font-serif text-cyan">0{index + 1}</span>
+                  <p className="font-serif text-2xl leading-snug md:text-3xl">{line}</p>
+                </StaggerItem>
+              ))}
+            </Stagger>
+          </div>
         </section>
 
+        {/* 11. FAQ */}
         <section className="border-t border-border">
           <div className="mx-auto max-w-3xl px-5 py-20 md:py-28">
-            <h2 className="font-serif text-4xl tracking-tight text-ink">Perguntas frequentes.</h2>
-            <div className="mt-8">
+            <Reveal>
+              <h2 className="font-serif text-4xl tracking-tight text-ink">Perguntas frequentes.</h2>
+            </Reveal>
+            <Stagger className="mt-8">
               {questions.map((item) => (
-                <details key={item.q} className="group border-b border-border py-4">
-                  <summary className="flex cursor-pointer list-none items-start justify-between gap-6 font-medium [&::-webkit-details-marker]:hidden">
-                    <span>{item.q}</span>
-                    <span className="font-serif text-xl text-clay transition-transform group-open:rotate-45">
-                      +
-                    </span>
-                  </summary>
-                  <p className="pt-3 pr-8 text-sm leading-relaxed text-muted-foreground">{item.a}</p>
-                </details>
+                <StaggerItem key={item.q}>
+                  <details className="faq group border-b border-border py-4">
+                    <summary className="flex cursor-pointer list-none items-start justify-between gap-6 font-medium transition-colors hover:text-brand [&::-webkit-details-marker]:hidden">
+                      <span>{item.q}</span>
+                      <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-sky font-serif text-lg text-brand transition-[transform,background-color] duration-300 group-open:rotate-45 group-open:bg-sun">
+                        +
+                      </span>
+                    </summary>
+                    <p className="pt-3 pr-8 text-sm leading-relaxed text-muted-foreground">{item.a}</p>
+                  </details>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           </div>
         </section>
 
-        <section id="conhecer" className="bg-sky">
-          <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 md:py-28 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
-            <div className="lg:sticky lg:top-28">
+        {/* 12. Fechamento + formulário */}
+        <section id="conhecer" className="relative overflow-hidden bg-sky">
+          <Blobs />
+          <div className="relative mx-auto grid max-w-6xl gap-12 px-5 py-20 md:py-28 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+            <Reveal className="lg:sticky lg:top-28">
               <h2 className="font-serif text-4xl leading-[1.05] tracking-tight text-brand md:text-5xl">
                 O modelo levou trinta anos para ficar pronto. A sua unidade não precisa levar.
               </h2>
@@ -389,15 +720,19 @@ export function HomePage() {
                 Se você já pensou em abrir, esse é o jeito de não começar sozinha. A próxima
                 conversa é sobre o modelo, a praça e as condições formais.
               </p>
-            </div>
-            <div className="rounded-3xl bg-white p-5 text-ink shadow-sm sm:p-8">
-              <h3 className="font-serif text-3xl tracking-tight">Para conhecer o modelo, responda isto.</h3>
-              <p className="mt-3 mb-8 text-sm leading-relaxed text-muted-foreground">
-                Não é um pedido de proposta e não gera compromisso. São as respostas para saber se
-                faz sentido conversar.
-              </p>
-              <LeadForm />
-            </div>
+            </Reveal>
+            <Reveal delay={0.15}>
+              <div className="rounded-3xl bg-white p-5 text-ink shadow-[0_30px_60px_-24px_rgb(2_119_189/0.4)] sm:p-8">
+                <h3 className="font-serif text-3xl tracking-tight">
+                  Para conhecer o modelo, responda isto.
+                </h3>
+                <p className="mt-3 mb-8 text-sm leading-relaxed text-muted-foreground">
+                  Não é um pedido de proposta e não gera compromisso. São as respostas para saber se
+                  faz sentido conversar.
+                </p>
+                <LeadForm />
+              </div>
+            </Reveal>
           </div>
         </section>
       </main>
@@ -414,6 +749,6 @@ export function HomePage() {
         </div>
       </footer>
       <StickyCta />
-    </>
+    </MotionProvider>
   )
 }
