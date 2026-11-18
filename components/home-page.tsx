@@ -1,6 +1,5 @@
 import {
   Brain,
-  Check,
   DoorOpen,
   FileWarning,
   HeartHandshake,
@@ -14,6 +13,7 @@ import type { ReactNode } from "react"
 
 import { BrandMark } from "@/components/brand-mark"
 import { ConhecerCta } from "@/components/conhecer-cta"
+import { DeliverablesScroller } from "@/components/deliverables-scroller"
 import { LeadForm } from "@/components/lead-form"
 import {
   Counter,
@@ -525,37 +525,12 @@ export function HomePage() {
           />
         </section>
 
-        {/* 6. O que a franqueada recebe */}
-        <section className="border-y border-border bg-card">
-          <div className="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:grid-cols-[0.8fr_1.2fr] md:py-28">
-            <Reveal>
-              <h2 className="font-serif text-4xl leading-[1.05] tracking-tight text-ink md:sticky md:top-28">
-                O que a franqueada recebe.
-              </h2>
-            </Reveal>
-            <div>
-              <Stagger as="ul" className="grid gap-3">
-                {deliverables.map((item) => (
-                  <StaggerItem
-                    key={item}
-                    as="li"
-                    className="group flex items-start gap-4 rounded-2xl border border-border bg-white p-4 text-base leading-relaxed transition-colors duration-300 hover:border-brand/30 hover:bg-sky/50"
-                  >
-                    <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-brand text-white transition-transform duration-300 group-hover:scale-110">
-                      <Check className="size-4" strokeWidth={3} aria-hidden="true" />
-                    </span>
-                    {item}
-                  </StaggerItem>
-                ))}
-              </Stagger>
-              <Reveal delay={0.2}>
-                <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-                  Condição comercial, taxa e investimento não estão nesta lista. Entram na proposta,
-                  em documento formal.
-                </p>
-              </Reveal>
-            </div>
-          </div>
+        {/* 6. O que a franqueada recebe: seção presa na tela, a rolagem troca o item */}
+        <section aria-label="O que a franqueada recebe" className="border-y border-border bg-card">
+          <DeliverablesScroller
+            items={deliverables}
+            note="Condição comercial, taxa e investimento não estão nesta lista. Entram na proposta, em documento formal."
+          />
         </section>
 
         {/* 7. Prova de operação */}
