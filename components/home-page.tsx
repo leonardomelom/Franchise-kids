@@ -443,7 +443,7 @@ export function HomePage() {
           <Reveal>
             <p className="text-sm font-medium tracking-wide text-moss">O modelo</p>
             <h2 className="mt-3 max-w-3xl font-serif text-4xl leading-[1.05] tracking-tight text-ink md:text-5xl">
-              A criança chega pelo médico e fica pela terapia.
+              A criança chega pelo encaminhamento e fica pela terapia.
             </h2>
           </Reveal>
           <div className="mt-8 grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
