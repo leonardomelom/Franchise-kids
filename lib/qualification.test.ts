@@ -5,7 +5,6 @@ import test from "node:test"
 import { formatBrazilMobile, toE164 } from "./phone"
 import {
   CONCEITO_OPTIONS,
-  INTERESSE_OPTIONS,
   PRAZO_OPTIONS,
   isQualifiedLead,
 } from "./qualification"
@@ -19,57 +18,26 @@ const qualifiedBase = {
   regiao: "Niterói",
   capital: "de_250_a_500",
   prazo: "ate_6_meses",
-  interesse: "abrir_unidade",
   conceito: "entendi",
   lgpd: true,
 }
 
-test("só qualifica franquia dentro de 12 meses com conceito entendido", () => {
+test("só qualifica quem abre em até 12 meses e entendeu o conceito", () => {
   let qualified = 0
   for (const prazo of PRAZO_OPTIONS) {
-    for (const interesse of INTERESSE_OPTIONS) {
-      for (const conceito of CONCEITO_OPTIONS) {
-        const passed = isQualifiedLead({
-          prazo: prazo.value,
-          interesse: interesse.value,
-          conceito: conceito.value,
-        })
-        if (passed) qualified += 1
-        const expected =
-          prazo.within12Months && interesse.franchise && conceito.understood
-        assert.equal(passed, expected)
-      }
+    for (const conceito of CONCEITO_OPTIONS) {
+      const passed = isQualifiedLead({ prazo: prazo.value, conceito: conceito.value })
+      if (passed) qualified += 1
+      assert.equal(passed, prazo.within12Months && conceito.understood)
     }
   }
   assert.equal(qualified, 2)
 })
 
 test("resposta incompleta ou fora da régua não qualifica", () => {
-  assert.equal(isQualifiedLead({ prazo: "", interesse: "abrir_unidade", conceito: "entendi" }), false)
-  assert.equal(
-    isQualifiedLead({
-      prazo: "ate_6_meses",
-      interesse: "adquirir_operacao",
-      conceito: "entendi",
-    }),
-    false,
-  )
-  assert.equal(
-    isQualifiedLead({
-      prazo: "mais_de_12_meses",
-      interesse: "abrir_unidade",
-      conceito: "entendi",
-    }),
-    false,
-  )
-  assert.equal(
-    isQualifiedLead({
-      prazo: "de_6_a_12_meses",
-      interesse: "abrir_unidade",
-      conceito: "nao_ficou_claro",
-    }),
-    false,
-  )
+  assert.equal(isQualifiedLead({ prazo: "", conceito: "entendi" }), false)
+  assert.equal(isQualifiedLead({ prazo: "mais_de_12_meses", conceito: "entendi" }), false)
+  assert.equal(isQualifiedLead({ prazo: "de_6_a_12_meses", conceito: "nao_ficou_claro" }), false)
 })
 
 test("celular brasileiro vira E.164", () => {
@@ -101,7 +69,6 @@ test("página de obrigado não chama ninguém de desqualificado", () => {
   const qualified = thankYouMessage({
     nome: "Marina",
     qualified: true,
-    interesse: "abrir_unidade",
     prazo: "ate_6_meses",
     conceito: "entendi",
   })
@@ -109,15 +76,14 @@ test("página de obrigado não chama ninguém de desqualificado", () => {
   assert.match(qualified.paragraphs.join(" "), /1 dia útil/)
   assert.match(qualified.paragraphs.join(" "), /unidade nova/)
 
-  const acquisition = thankYouMessage({
+  const later = thankYouMessage({
     nome: "Paulo",
     qualified: false,
-    interesse: "adquirir_operacao",
-    prazo: "ate_6_meses",
+    prazo: "mais_de_12_meses",
     conceito: "entendi",
   })
-  assert.match(acquisition.paragraphs.join(" "), /operação existente/)
-  assert.doesNotMatch(acquisition.paragraphs.join(" ").toLowerCase(), /desqualific/)
+  assert.match(later.paragraphs.join(" "), /12 meses/)
+  assert.doesNotMatch(later.paragraphs.join(" ").toLowerCase(), /desqualific/)
 
   const empty = thankYouMessage(null)
   assert.match(empty.title, /Nenhum envio/)

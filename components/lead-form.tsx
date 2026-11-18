@@ -14,7 +14,6 @@ import {
   CAPITAL_OPTIONS,
   CONCEPT_STATEMENT,
   CONCEITO_OPTIONS,
-  INTERESSE_OPTIONS,
   PRAZO_OPTIONS,
   isQualifiedLead,
 } from "@/lib/qualification"
@@ -28,7 +27,6 @@ type FormState = {
   regiao: string
   capital: string
   prazo: string
-  interesse: string
   conceito: string
   lgpd: boolean
   company_site: string
@@ -41,7 +39,6 @@ const initialState: FormState = {
   regiao: "",
   capital: "",
   prazo: "",
-  interesse: "",
   conceito: "",
   lgpd: false,
   company_site: "",
@@ -110,7 +107,6 @@ export function LeadForm() {
           form_id: "franquia_so_criancas",
           lead_status: "qualificado",
           prazo: local.lead.prazo,
-          interesse: "abrir_unidade",
           entendeu_conceito: true,
           capital: local.lead.capital,
           regiao: local.lead.regiao,
@@ -126,7 +122,6 @@ export function LeadForm() {
 
       const receipt = new URLSearchParams({
         nome: names.first_name,
-        interesse: local.lead.interesse,
         prazo: local.lead.prazo,
         conceito: local.lead.conceito,
         regiao: local.lead.regiao,
@@ -225,15 +220,6 @@ export function LeadForm() {
         onChange={(value) => update("prazo", value)}
       />
 
-      <ChoiceField
-        legend="O que te interessa?"
-        name="interesse"
-        value={form.interesse}
-        error={errors.interesse}
-        options={INTERESSE_OPTIONS}
-        onChange={(value) => update("interesse", value)}
-      />
-
       <fieldset className="grid gap-3" data-invalid={errors.conceito ? "true" : undefined}>
         <legend className="text-sm font-medium">Você entendeu esse conceito?</legend>
         <blockquote className="border-l-2 border-clay py-1 pl-4 text-sm leading-relaxed text-foreground">
@@ -265,8 +251,7 @@ export function LeadForm() {
             className="mt-0.5"
           />
           <span>
-            Autorizo a Só Crianças a usar meu nome e meu WhatsApp para falar sobre franquia ou
-            aquisição de operação.
+            Autorizo a Só Crianças a usar meu nome e meu WhatsApp para falar sobre a franquia.
           </span>
         </label>
         {errors.lgpd ? <FieldError>{errors.lgpd}</FieldError> : null}

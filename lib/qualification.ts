@@ -5,27 +5,6 @@ export const PRAZO_OPTIONS = [
   { value: "ainda_avaliando", label: "Ainda avaliando", within12Months: false },
 ] as const
 
-export const INTERESSE_OPTIONS = [
-  {
-    value: "abrir_unidade",
-    label: "Abrir uma unidade nova",
-    hint: "Começar uma franquia Só Crianças.",
-    franchise: true,
-  },
-  {
-    value: "adquirir_operacao",
-    label: "Adquirir uma operação existente",
-    hint: "Conversar sobre uma unidade que já opera.",
-    franchise: false,
-  },
-  {
-    value: "ainda_avaliando",
-    label: "Ainda estou avaliando",
-    hint: "Quero entender o modelo antes de escolher o caminho.",
-    franchise: false,
-  },
-] as const
-
 export const CONCEITO_OPTIONS = [
   { value: "entendi", label: "Sim, entendi", understood: true },
   { value: "nao_ficou_claro", label: "Ainda não ficou claro", understood: false },
@@ -43,42 +22,37 @@ export const CONCEPT_STATEMENT =
   "Na Só Crianças, a família entra por uma queixa pediátrica e encontra, no mesmo endereço, a neurologia, a nutrição e a equipe de terapia. O pediatra identifica, encaminha internamente, e a unidade transforma atendimento pontual em acompanhamento semanal. A unidade gera o próprio paciente."
 
 export type Prazo = (typeof PRAZO_OPTIONS)[number]["value"]
-export type Interesse = (typeof INTERESSE_OPTIONS)[number]["value"]
 export type Conceito = (typeof CONCEITO_OPTIONS)[number]["value"]
 export type Capital = (typeof CAPITAL_OPTIONS)[number]["value"]
 
 export type QualificationAnswers = {
   prazo: string
-  interesse: string
   conceito: string
 }
 
 export type QualificationFlags = {
   dentroDe12Meses: boolean
-  interesseEmFranquia: boolean
   entendeuConceito: boolean
 }
 
 export function qualificationFlags(input: QualificationAnswers): QualificationFlags {
   const prazo = PRAZO_OPTIONS.find((item) => item.value === input.prazo)
-  const interesse = INTERESSE_OPTIONS.find((item) => item.value === input.interesse)
   const conceito = CONCEITO_OPTIONS.find((item) => item.value === input.conceito)
 
   return {
     dentroDe12Meses: prazo?.within12Months ?? false,
-    interesseEmFranquia: interesse?.franchise ?? false,
     entendeuConceito: conceito?.understood ?? false,
   }
 }
 
 /**
- * Lead qualificado para mídia: interesse em abrir franquia nos próximos
- * 12 meses e confirmação de que entendeu o conceito da Só Crianças.
- * Aquisição de operação existente não entra nesse evento.
+ * Lead qualificado para mídia: quer abrir nos próximos 12 meses e confirmou
+ * que entendeu o conceito da Só Crianças. A página inteira é sobre abrir uma
+ * franquia, então todo envio já conta como interesse em unidade nova.
  */
 export function isQualifiedLead(input: QualificationAnswers): boolean {
   const flags = qualificationFlags(input)
-  return flags.dentroDe12Meses && flags.interesseEmFranquia && flags.entendeuConceito
+  return flags.dentroDe12Meses && flags.entendeuConceito
 }
 
 export function optionLabel(

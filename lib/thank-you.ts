@@ -8,7 +8,6 @@ export type ThankYouContent = {
 
 export function thankYouMessage(input: {
   nome?: string
-  interesse?: string
   prazo?: string
   conceito?: string
   qualified?: boolean
@@ -32,16 +31,6 @@ export function thankYouMessage(input: {
       paragraphs: [
         SLA,
         "A conversa é sobre abrir uma unidade nova: como a operação funciona, a praça e as condições formais. Nada é assinado nesta etapa.",
-      ],
-    }
-  }
-
-  if (input.interesse === "adquirir_operacao") {
-    return {
-      title,
-      paragraphs: [
-        SLA,
-        "Você marcou interesse em adquirir uma operação existente. A conversa segue por esse caminho, separado da abertura de uma unidade nova.",
       ],
     }
   }
@@ -70,7 +59,7 @@ export function thankYouMessage(input: {
     title,
     paragraphs: [
       SLA,
-      "Você ainda está avaliando o caminho. A conversa organiza se faz sentido abrir uma unidade, adquirir uma operação ou esperar.",
+      "A conversa é sobre abrir uma unidade nova: como a operação funciona, a praça e as condições formais. Nada é assinado nesta etapa.",
     ],
   }
 }

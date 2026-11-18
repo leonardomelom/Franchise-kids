@@ -2,11 +2,7 @@ import { Check } from "lucide-react"
 
 import { BrandMark } from "@/components/brand-mark"
 import { ConhecerCta } from "@/components/conhecer-cta"
-import {
-  INTERESSE_OPTIONS,
-  PRAZO_OPTIONS,
-  optionLabel,
-} from "@/lib/qualification"
+import { PRAZO_OPTIONS, optionLabel } from "@/lib/qualification"
 import { thankYouMessage } from "@/lib/thank-you"
 
 function one(value: string | string[] | undefined): string {
@@ -21,17 +17,15 @@ export async function Obrigado({
 }) {
   const params = await searchParams
   const nome = one(params.nome)
-  const interesse = one(params.interesse)
   const prazo = one(params.prazo)
   const conceito = one(params.conceito)
   const regiao = one(params.regiao)
-  const sent = Boolean(interesse || prazo || conceito)
+  const sent = Boolean(prazo || conceito)
 
   const content = thankYouMessage(
     sent
       ? {
           nome,
-          interesse,
           prazo,
           conceito,
           qualified: params.q === "1",
@@ -65,11 +59,7 @@ export async function Obrigado({
         </div>
 
         {sent ? (
-          <dl className="mt-10 grid animate-rise [animation-delay:450ms] gap-4 border-t border-border pt-6 sm:grid-cols-3">
-            <div>
-              <dt className="text-xs tracking-[0.14em] text-muted-foreground uppercase">Interesse</dt>
-              <dd className="mt-1 text-sm">{optionLabel(INTERESSE_OPTIONS, interesse)}</dd>
-            </div>
+          <dl className="mt-10 grid animate-rise [animation-delay:450ms] gap-4 border-t border-border pt-6 sm:grid-cols-2">
             <div>
               <dt className="text-xs tracking-[0.14em] text-muted-foreground uppercase">Prazo</dt>
               <dd className="mt-1 text-sm">{optionLabel(PRAZO_OPTIONS, prazo)}</dd>

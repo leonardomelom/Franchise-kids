@@ -5,7 +5,6 @@ export type LeadQualificadoPayload = {
   form_id: "franquia_so_criancas"
   lead_status: "qualificado"
   prazo: "ate_6_meses" | "de_6_a_12_meses"
-  interesse: "abrir_unidade"
   entendeu_conceito: true
   capital: string
   regiao: string

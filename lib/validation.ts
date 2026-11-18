@@ -1,11 +1,9 @@
 import {
   CAPITAL_OPTIONS,
   CONCEITO_OPTIONS,
-  INTERESSE_OPTIONS,
   PRAZO_OPTIONS,
   type Capital,
   type Conceito,
-  type Interesse,
   type Prazo,
 } from "@/lib/qualification"
 import { toE164 } from "@/lib/phone"
@@ -17,7 +15,6 @@ export type LeadInput = {
   regiao: string
   capital: Capital
   prazo: Prazo
-  interesse: Interesse
   conceito: Conceito
   lgpd: true
 }
@@ -57,7 +54,6 @@ export function validateLead(body: unknown): ValidationResult {
   const whatsapp = toE164(typeof source.whatsapp === "string" ? source.whatsapp : "")
   const capital = choice(CAPITAL_OPTIONS, source.capital)
   const prazo = choice(PRAZO_OPTIONS, source.prazo)
-  const interesse = choice(INTERESSE_OPTIONS, source.interesse)
   const conceito = choice(CONCEITO_OPTIONS, source.conceito)
   const lgpd = source.lgpd === true
 
@@ -67,11 +63,10 @@ export function validateLead(body: unknown): ValidationResult {
   if (regiao.length < 3) errors.regiao = "Informe a cidade ou a região de interesse."
   if (!capital) errors.capital = "Escolha uma faixa de capital."
   if (!prazo) errors.prazo = "Escolha o prazo pretendido para abrir."
-  if (!interesse) errors.interesse = "Escolha o que te interessa."
   if (!conceito) errors.conceito = "Marque se o conceito ficou claro."
   if (!lgpd) errors.lgpd = "Precisamos da sua autorização para entrar em contato."
 
-  if (!whatsapp || !capital || !prazo || !interesse || !conceito || !lgpd || Object.keys(errors).length > 0) {
+  if (!whatsapp || !capital || !prazo || !conceito || !lgpd || Object.keys(errors).length > 0) {
     return { ok: false, errors }
   }
 
@@ -84,7 +79,6 @@ export function validateLead(body: unknown): ValidationResult {
       regiao,
       capital,
       prazo,
-      interesse,
       conceito,
       lgpd: true,
     },

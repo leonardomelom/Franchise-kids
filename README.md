@@ -18,15 +18,14 @@ npm run lint
 
 ## O evento de mídia
 
-O formulário grava todo mundo que responde. O Google Tag Manager só recebe conversão quando as três respostas abaixo são verdadeiras ao mesmo tempo:
+O formulário grava todo mundo que responde. O Google Tag Manager só recebe conversão quando as duas respostas abaixo são verdadeiras ao mesmo tempo:
 
 1. Prazo para abrir em até 12 meses (`Até 6 meses` ou `De 6 a 12 meses`).
-2. Interesse em franquia (`Abrir uma unidade nova`).
-3. A pessoa confirma que entendeu o conceito: a família entra por uma queixa pediátrica e a unidade encaminha, no mesmo endereço, para a terapia recorrente.
+2. A pessoa confirma que entendeu o conceito: a família entra por uma queixa pediátrica e a unidade encaminha, no mesmo endereço, para a terapia recorrente.
 
 O evento se chama `lead_qualificado`. A página não dispara `lead`, `generate_lead` nem o evento padrão de lead do Meta.
 
-Quem marca aquisição de operação existente, prazo acima de 12 meses, “ainda avaliando” ou “ainda não ficou claro” segue para o comercial, sem evento de mídia. A página de obrigado muda o próximo passo conforme essa resposta.
+A página toda é sobre abrir uma unidade nova, então o formulário não pergunta o tipo de interesse. Quem marca prazo acima de 12 meses, “ainda avaliando” ou “ainda não ficou claro” segue para o comercial, sem evento de mídia. A página de obrigado muda o próximo passo conforme essa resposta.
 
 ### Configurar o GTM
 
@@ -39,7 +38,7 @@ No container, crie um acionador de evento personalizado com o nome exato `lead_q
 Campos úteis no `dataLayer`:
 
 - `event_id` para deduplicar, se depois existir uma API de conversões
-- `prazo`, `interesse`, `capital`, `regiao`, `area_atuacao`
+- `prazo`, `capital`, `regiao`, `area_atuacao`
 - `user_data.phone_number` em E.164, `user_data.first_name` e `user_data.last_name`, para conversão avançada. O hash fica na tag do GTM.
 
 ## Para onde vai o contato
