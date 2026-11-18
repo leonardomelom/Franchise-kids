@@ -9,6 +9,7 @@ import {
   Stethoscope,
   UserMinus,
 } from "lucide-react"
+import Image from "next/image"
 import type { ReactNode } from "react"
 
 import { BrandMark } from "@/components/brand-mark"
@@ -615,14 +616,38 @@ export function HomePage() {
         </section>
 
         {/* 8. A fundadora */}
-        <section className="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:grid-cols-[0.9fr_1.1fr] md:py-28">
-          <Reveal x={-30} y={0}>
+        <section className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-20 md:grid-cols-[0.85fr_1.15fr] md:gap-14 md:py-28">
+          <Reveal x={-30} y={0} className="relative mx-auto w-full max-w-sm md:max-w-none">
+            <div
+              aria-hidden="true"
+              className="absolute -inset-5 -z-10 animate-blob rounded-[2.5rem] bg-gradient-to-br from-cyan/30 via-sun/30 to-brand/20 blur-2xl"
+            />
+            <div className="group relative overflow-hidden rounded-[2rem] shadow-[0_30px_60px_-24px_rgb(22_50_74/0.5)]">
+              <Image
+                src="/dra-ana-teresa-vacchiano.webp"
+                alt="Dra. Ana Teresa Vacchiano, de jaleco branco, trabalhando no consultório"
+                width={941}
+                height={1672}
+                sizes="(min-width: 768px) 440px, 90vw"
+                className="aspect-[4/5] w-full object-cover object-[50%_38%] transition-transform duration-700 group-hover:scale-[1.03]"
+              />
+              <div
+                aria-hidden="true"
+                className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink/40 to-transparent"
+              />
+            </div>
+            <div className="absolute -right-3 -bottom-5 animate-float rounded-2xl border border-white bg-white/95 px-4 py-3 shadow-[0_20px_40px_-16px_rgb(2_119_189/0.45)] backdrop-blur sm:-right-6">
+              <p className="text-lg leading-none font-extrabold text-ink">Desde 1995</p>
+              <p className="mt-1 text-xs text-muted-foreground">fundadora da Só Crianças</p>
+            </div>
+          </Reveal>
+          <Reveal x={30} y={0} delay={0.1}>
             <p className="text-sm font-medium tracking-wide text-moss">A fundadora</p>
             <h2 className="mt-3 font-serif text-4xl leading-[1.05] tracking-tight text-ink md:text-5xl">
               Dra. Ana Teresa Vacchiano
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">Cirurgiã pediátrica · CRM-RJ 382028</p>
-            <Stagger as="ul" className="mt-8 flex flex-wrap gap-2">
+            <Stagger as="ul" className="mt-6 flex flex-wrap gap-2">
               {credentials.map((item) => (
                 <StaggerItem
                   key={item}
@@ -633,19 +658,19 @@ export function HomePage() {
                 </StaggerItem>
               ))}
             </Stagger>
-          </Reveal>
-          <Reveal x={30} y={0} delay={0.1} className="text-lg leading-relaxed text-foreground/80">
-            <p>
-              Fundou a Só Crianças em Duque de Caxias. Três títulos de especialista, 36 anos de
-              Souza Aguiar e pós em Psiquiatria da Infância pelo Einstein.
-            </p>
-            <p className="mt-4">
-              A sucessão clínica está dentro de casa. A operação não depende de uma única pessoa na
-              cadeira de fundadora.
-            </p>
-            <p className="mt-4 text-base text-muted-foreground">
-              É com ela, de par para par, que o perfil médico costuma se reconhecer.
-            </p>
+            <div className="mt-8 text-lg leading-relaxed text-foreground/80">
+              <p>
+                Fundou a Só Crianças em Duque de Caxias. Três títulos de especialista, 36 anos de
+                Souza Aguiar e pós em Psiquiatria da Infância pelo Einstein.
+              </p>
+              <p className="mt-4">
+                A sucessão clínica está dentro de casa. A operação não depende de uma única pessoa
+                na cadeira de fundadora.
+              </p>
+              <p className="mt-4 text-base text-muted-foreground">
+                É com ela, de par para par, que o perfil médico costuma se reconhecer.
+              </p>
+            </div>
           </Reveal>
         </section>
 
