@@ -605,7 +605,7 @@ export function HomePage() {
         </section>
 
         {/* 8. A fundadora */}
-        <section className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-20 md:grid-cols-[0.85fr_1.15fr] md:gap-14 md:py-28">
+        <section className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-20 md:grid-cols-[0.72fr_1.28fr] md:gap-12 md:py-28">
           <Reveal x={-30} y={0} className="relative mx-auto w-full max-w-sm md:max-w-none">
             <div
               aria-hidden="true"
@@ -636,12 +636,12 @@ export function HomePage() {
               Dra. Ana Teresa Vacchiano
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">Cirurgiã pediátrica · CRM-RJ 382028</p>
-            <Stagger as="ul" className="mt-6 flex flex-wrap gap-2">
+            <Stagger as="ul" className="mt-6 flex flex-wrap gap-1.5">
               {credentials.map((item) => (
                 <StaggerItem
                   key={item}
                   as="li"
-                  className="rounded-full border border-brand/15 bg-sky px-3.5 py-1.5 text-sm font-semibold text-brand"
+                  className="rounded-full border border-brand/15 bg-sky px-3 py-1.5 text-[13px] font-semibold whitespace-nowrap text-brand"
                 >
                   {item}
                 </StaggerItem>
