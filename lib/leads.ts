@@ -51,9 +51,10 @@ async function persist(lead: StoredLead) {
     file: savedToFile,
     webhook: sentToWebhook,
   })
-  // Na Vercel o disco é somente leitura: sem webhook, o lead se perderia.
-  // Melhor falhar e a pessoa ver o erro do que mostrar "recebemos" sem ter guardado.
-  if (!savedToFile && !sentToWebhook) {
+  // Na Vercel o disco é somente leitura. Sem webhook configurado, quem guarda
+  // o lead é a captura automática do RD Station no navegador. Só falha quando
+  // existe um webhook e ele também não recebeu.
+  if (!savedToFile && process.env.LEAD_WEBHOOK_URL && !sentToWebhook) {
     throw new Error("lead not persisted")
   }
 }
