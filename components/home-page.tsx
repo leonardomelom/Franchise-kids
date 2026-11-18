@@ -310,17 +310,18 @@ export function HomePage() {
               </p>
               <h1 className="mt-6 max-w-3xl text-[2.55rem] leading-[1.05] text-brand sm:text-6xl sm:leading-[1.02]">
                 <span className="block animate-rise [animation-delay:100ms]">
-                  Você já sabe operar uma clínica.
+                  Você já sabe atender.
                 </span>
                 <span className="mt-3 block animate-rise text-ink [animation-delay:220ms]">
-                  O que falta é não{" "}
+                  O que falta é{" "}
                   <span className="relative isolate inline-block whitespace-nowrap">
                     <span
                       aria-hidden="true"
                       className="absolute inset-x-[-0.1em] bottom-[0.04em] -z-10 h-[0.36em] origin-left animate-draw rounded-full bg-sun [animation-delay:900ms]"
                     />
-                    começar do zero.
-                  </span>
+                    a clínica
+                  </span>{" "}
+                  em volta de você.
                 </span>
               </h1>
               <p className="mt-6 max-w-xl animate-rise text-lg leading-relaxed text-foreground/80 [animation-delay:340ms]">

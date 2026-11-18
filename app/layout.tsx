@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description:
     "A Só Crianças abre unidades franqueadas. Modelo multidisciplinar validado desde 1995, com três unidades próprias em operação no Rio de Janeiro.",
   openGraph: {
-    title: "Você já sabe operar uma clínica. O que falta é não começar do zero.",
+    title: "Você já sabe atender. O que falta é a clínica em volta de você.",
     description:
       "Modelo multidisciplinar validado desde 1995, com três unidades próprias em operação no Rio de Janeiro.",
     locale: "pt_BR",
