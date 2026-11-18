@@ -166,11 +166,20 @@ export function Highlight({ children, delay = 0.2 }: { children: ReactNode; dela
 }
 
 /** Faixa colorida que cresce da esquerda para a direita. */
-export function GrowBar({ className, delay = 0 }: { className?: string; delay?: number }) {
+export function GrowBar({
+  className,
+  wrapperClassName = "",
+  delay = 0,
+}: {
+  className?: string
+  /** Use "h-full" quando a barra precisa preencher um trilho de altura fixa. */
+  wrapperClassName?: string
+  delay?: number
+}) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, viewport)
   return (
-    <div ref={ref} aria-hidden="true" className="h-full w-full">
+    <div ref={ref} aria-hidden="true" className={`w-full ${wrapperClassName}`}>
       <motion.div
         className={`origin-left ${className ?? ""}`}
         initial={{ scaleX: 0 }}

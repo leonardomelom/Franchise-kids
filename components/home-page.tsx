@@ -366,18 +366,28 @@ export function HomePage() {
             ))}
           </Stagger>
           <div className="relative border-t border-paper/15 py-4 [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
-            <div className="flex w-max animate-marquee gap-3 hover:[animation-play-state:paused]">
-              {[0, 1].map((copy) => (
-                <ul key={copy} aria-hidden={copy === 1} className="flex gap-3">
-                  {insurers.map((name) => (
-                    <li
-                      key={name}
-                      className="rounded-full border border-paper/20 bg-paper/10 px-4 py-1.5 text-sm font-semibold whitespace-nowrap text-paper/90"
+            {/* Duas metades idênticas, cada uma com a lista repetida até cobrir telas largas:
+                a animação anda exatamente uma metade (-50%) e emenda o fim no começo. */}
+            <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
+              {[0, 1].map((half) => (
+                <div key={half} aria-hidden={half === 1 || undefined} className="flex">
+                  {[0, 1, 2, 3, 4, 5].map((repeat) => (
+                    <ul
+                      key={repeat}
+                      aria-hidden={(half === 0 && repeat > 0) || undefined}
+                      className="flex"
                     >
-                      {name}
-                    </li>
+                      {insurers.map((name) => (
+                        <li
+                          key={name}
+                          className="mr-3 rounded-full border border-paper/20 bg-paper/10 px-4 py-1.5 text-sm font-semibold whitespace-nowrap text-paper/90"
+                        >
+                          {name}
+                        </li>
+                      ))}
+                    </ul>
                   ))}
-                </ul>
+                </div>
               ))}
             </div>
           </div>
@@ -479,7 +489,11 @@ export function HomePage() {
                       <span className="font-serif text-2xl">1 psicóloga</span>
                     </div>
                     <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-paper/10">
-                      <GrowBar className="h-full w-[3%] rounded-full bg-paper/60" delay={0.3} />
+                      <GrowBar
+                        className="h-full w-[3%] rounded-full bg-paper/60"
+                        wrapperClassName="h-full"
+                        delay={0.3}
+                      />
                     </div>
                   </div>
                   <div>
@@ -492,6 +506,7 @@ export function HomePage() {
                     <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-paper/10">
                       <GrowBar
                         className="h-full w-full rounded-full bg-gradient-to-r from-cyan to-sun"
+                        wrapperClassName="h-full"
                         delay={0.5}
                       />
                     </div>
