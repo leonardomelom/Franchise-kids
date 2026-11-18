@@ -42,29 +42,21 @@ const breaks = [
     icon: ShieldAlert,
     title: "Credenciamento que não sai.",
     body: "Operadora não credencia quem não tem histórico, e sem convênio a agenda não enche.",
-    bar: "bg-brand",
-    chip: "bg-brand/10 text-brand",
   },
   {
     icon: FileWarning,
     title: "Glosa.",
     body: "Faturamento mal feito vira dinheiro que você já trabalhou e não vai receber.",
-    bar: "bg-sun",
-    chip: "bg-sun/25 text-ink",
   },
   {
     icon: DoorOpen,
     title: "Sala ociosa.",
     body: "Terapia é ocupação. Sala parada é custo fixo rodando contra você.",
-    bar: "bg-pop",
-    chip: "bg-pop/10 text-pop",
   },
   {
     icon: UserMinus,
     title: "Paciente que some.",
     body: "Sem porta de entrada própria, cada paciente novo custa mídia que o ticket não paga.",
-    bar: "bg-cyan",
-    chip: "bg-cyan/15 text-brand",
   },
 ]
 
@@ -83,21 +75,18 @@ const units = [
     place: "Centro",
     address: "R. Conde de Porto Alegre, 422",
     note: "Em operação desde 1995",
-    bar: "bg-brand",
   },
   {
     city: "Nova Iguaçu",
     place: "Centro",
     address: "R. Dr. Barros Júnior, 272, sala 8",
     note: "Em operação",
-    bar: "bg-sun",
   },
   {
     city: "São Conrado",
     place: "Rio de Janeiro",
     address: "Estr. da Gávea, 847, loja 113",
     note: "Em operação",
-    bar: "bg-cyan",
   },
 ]
 
@@ -430,11 +419,11 @@ export function HomePage() {
                   as="article"
                   className="group overflow-hidden rounded-3xl border border-sky bg-white shadow-sm transition-[transform,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_24px_48px_-20px_rgb(2_119_189/0.35)]"
                 >
-                  <GrowBar className={`h-1.5 ${item.bar}`} delay={0.2 + index * 0.1} />
+                  <GrowBar className="h-1.5 bg-brand" delay={0.2 + index * 0.1} />
                   <div className="p-6">
                     <div className="flex items-center justify-between">
                       <span
-                        className={`flex size-11 items-center justify-center rounded-2xl transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6 ${item.chip}`}
+                        className="flex size-11 items-center justify-center rounded-2xl bg-brand/10 text-brand transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6"
                       >
                         <item.icon className="size-5" aria-hidden="true" />
                       </span>
@@ -589,7 +578,7 @@ export function HomePage() {
                   as="article"
                   className="group relative overflow-hidden rounded-3xl bg-white p-6 shadow-sm transition-[transform,box-shadow] duration-500 hover:-translate-y-1.5 hover:shadow-[0_24px_48px_-20px_rgb(2_119_189/0.4)]"
                 >
-                  <span aria-hidden="true" className={`absolute inset-x-0 top-0 h-1.5 ${unit.bar}`} />
+                  <span aria-hidden="true" className="absolute inset-x-0 top-0 h-1.5 bg-brand" />
                   <div className="flex items-center justify-between">
                     <p className="text-xs font-extrabold tracking-[0.14em] text-brand uppercase">
                       {unit.note}
