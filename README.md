@@ -33,19 +33,23 @@ A página toda é sobre abrir uma unidade nova, então o formulário não pergun
 2. Preencha `NEXT_PUBLIC_GTM_ID` com o container, no formato `GTM-XXXX`.
 3. Reinicie o `npm run dev`. Sem o ID, o `dataLayer` ainda recebe o evento, mas nenhuma tag sai.
 
-No container, crie um acionador de evento personalizado com o nome exato `lead_qualificado`. Aponte para ele a conversão do Google Ads e o evento do Meta. Não crie um acionador de envio de formulário nesta página: o formulário `qualificador-franquia` chama a API por conta própria, e um acionador genérico de formulário pode marcar gente que não passou na régua.
+No container, crie um acionador de evento personalizado com o nome exato `lead_qualificado`. Aponte para ele a conversão do Google Ads e o evento do Meta. Não crie um acionador de envio de formulário nesta página: o formulário `form-franquia-so-criancas` chama a API por conta própria, e um acionador genérico de formulário pode marcar gente que não passou na régua.
 
 Campos úteis no `dataLayer`:
 
 - `event_id` para deduplicar, se depois existir uma API de conversões
 - `prazo`, `capital`, `regiao`, `area_atuacao`
-- `user_data.phone_number` em E.164, `user_data.first_name` e `user_data.last_name`, para conversão avançada. O hash fica na tag do GTM.
+- `user_data.phone_number` em E.164, `user_data.email`, `user_data.first_name` e `user_data.last_name`, para conversão avançada. O hash fica na tag do GTM.
 
 ## Para onde vai o contato
 
 Cada envio válido fica em `data/leads.json` (pasta ignorada pelo git) e, se `LEAD_WEBHOOK_URL` estiver definido, segue em POST JSON para esse endereço. O corpo inclui `qualified` e `gtm_event` (`lead_qualificado` ou `null`). Se o destino exigir segredo, use `LEAD_WEBHOOK_SECRET`.
 
 Na Vercel o disco é somente leitura, então `data/leads.json` não é gravado. A captação fica com o RD Station (captura automática de formulários); o webhook é opcional.
+
+### RD Station
+
+O script de monitoramento da conta Wings Company é carregado em todas as páginas (`app/layout.tsx`). O formulário tem `id` e `name` `form-franquia-so-criancas`, que é o identificador a usar na conversão do RD. Os campos chegam com estes nomes: `nome`, `email`, `whatsapp` (celular com DDD), `area`, `regiao`, `capital`, `prazo`, `conceito` e `lgpd`.
 
 ## Antes de veicular anúncio
 

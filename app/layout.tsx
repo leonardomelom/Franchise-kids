@@ -58,6 +58,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${id}');`}
           </Script>
         ) : null}
+        {/* RD Station (conta Wings Company): monitoramento e captura automática do
+            formulário "form-franquia-so-criancas". */}
+        <Script
+          id="rd-station-loader"
+          src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/56230167-5941-403e-bf48-cfe35af9f53a-loader.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   )

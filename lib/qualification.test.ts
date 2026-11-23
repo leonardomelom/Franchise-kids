@@ -14,6 +14,7 @@ import { validateLead } from "./validation"
 const qualifiedBase = {
   nome: "Ana Lima",
   whatsapp: "(21) 98888-7777",
+  email: "Ana.Lima@Exemplo.com ",
   area: "Fonoaudiologia",
   regiao: "Niterói",
   capital: "de_250_a_500",
@@ -54,14 +55,16 @@ test("validação exige nome, whatsapp, escolhas e autorização", () => {
   assert.equal(valid.ok, true)
   if (valid.ok) {
     assert.equal(valid.lead.whatsapp, "+5521988887777")
+    assert.equal(valid.lead.email, "ana.lima@exemplo.com")
     assert.equal(isQualifiedLead(valid.lead), true)
   }
 
-  const missing = validateLead({ ...qualifiedBase, lgpd: false, nome: "Ana" })
+  const missing = validateLead({ ...qualifiedBase, lgpd: false, nome: "Ana", email: "ana@" })
   assert.equal(missing.ok, false)
   if (!missing.ok) {
     assert.match(missing.errors.nome ?? "", /sobrenome/)
     assert.match(missing.errors.lgpd ?? "", /autorização/)
+    assert.match(missing.errors.email ?? "", /e-mail/)
   }
 })
 

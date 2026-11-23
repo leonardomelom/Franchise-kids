@@ -11,6 +11,7 @@ import { toE164 } from "@/lib/phone"
 export type LeadInput = {
   nome: string
   whatsapp: string
+  email: string
   area: string
   regiao: string
   capital: Capital
@@ -28,6 +29,15 @@ export type ValidationResult =
 function cleanText(value: unknown, max: number): string {
   if (typeof value !== "string") return ""
   return value.replace(/[<>]/g, "").replace(/\s+/g, " ").trim().slice(0, max)
+}
+
+function cleanEmail(value: unknown): string {
+  if (typeof value !== "string") return ""
+  return value.trim().toLowerCase().slice(0, 160)
+}
+
+function isEmail(value: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)
 }
 
 function isFullName(value: string): boolean {
@@ -49,6 +59,7 @@ export function validateLead(body: unknown): ValidationResult {
   const errors: LeadErrors = {}
 
   const nome = cleanText(source.nome, 120)
+  const email = cleanEmail(source.email)
   const area = cleanText(source.area, 160)
   const regiao = cleanText(source.regiao, 120)
   const whatsapp = toE164(typeof source.whatsapp === "string" ? source.whatsapp : "")
@@ -59,6 +70,7 @@ export function validateLead(body: unknown): ValidationResult {
 
   if (!isFullName(nome)) errors.nome = "Escreva nome e sobrenome."
   if (!whatsapp) errors.whatsapp = "Informe um celular com DDD. Ex.: (21) 99999-9999."
+  if (!isEmail(email)) errors.email = "Informe um e-mail válido. Ex.: nome@exemplo.com."
   if (area.length < 3) errors.area = "Conte sua formação ou a área em que você atua."
   if (regiao.length < 3) errors.regiao = "Informe a cidade ou a região de interesse."
   if (!capital) errors.capital = "Escolha uma faixa de capital."
@@ -75,6 +87,7 @@ export function validateLead(body: unknown): ValidationResult {
     lead: {
       nome,
       whatsapp,
+      email,
       area,
       regiao,
       capital,

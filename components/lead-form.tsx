@@ -23,6 +23,7 @@ import { cn } from "cn"
 type FormState = {
   nome: string
   whatsapp: string
+  email: string
   area: string
   regiao: string
   capital: string
@@ -35,6 +36,7 @@ type FormState = {
 const initialState: FormState = {
   nome: "",
   whatsapp: "",
+  email: "",
   area: "",
   regiao: "",
   capital: "",
@@ -115,6 +117,7 @@ export function LeadForm() {
             first_name: names.first_name,
             last_name: names.last_name,
             phone_number: local.lead.whatsapp,
+            email: local.lead.email,
           },
         }
         pushLeadQualificado(payload)
@@ -136,7 +139,13 @@ export function LeadForm() {
   }
 
   return (
-    <form id="qualificador-franquia" className="grid gap-7" onSubmit={onSubmit} noValidate>
+    <form
+      id="form-franquia-so-criancas"
+      name="form-franquia-so-criancas"
+      className="grid gap-7"
+      onSubmit={onSubmit}
+      noValidate
+    >
       <div className="absolute -left-[9999px] h-0 overflow-hidden" aria-hidden="true">
         <label>
           Site
@@ -173,6 +182,22 @@ export function LeadForm() {
           value={form.whatsapp}
           aria-invalid={Boolean(errors.whatsapp)}
           onChange={(event) => update("whatsapp", formatBrazilMobile(event.target.value))}
+        />
+      </Field>
+
+      <Field id="email" label="E-mail" error={errors.email}>
+        <Input
+          id="email"
+          name="email"
+          type="email"
+          inputMode="email"
+          autoComplete="email"
+          autoCapitalize="none"
+          spellCheck={false}
+          placeholder="seuemail@exemplo.com"
+          value={form.email}
+          aria-invalid={Boolean(errors.email)}
+          onChange={(event) => update("email", event.target.value)}
         />
       </Field>
 
@@ -245,13 +270,15 @@ export function LeadForm() {
       <div className="grid gap-2" data-invalid={errors.lgpd ? "true" : undefined}>
         <label className="flex items-start gap-3 text-sm leading-relaxed">
           <Checkbox
+            name="lgpd"
+            value="sim"
             checked={form.lgpd}
             onCheckedChange={(checked) => update("lgpd", checked)}
             aria-invalid={Boolean(errors.lgpd)}
             className="mt-0.5"
           />
           <span>
-            Autorizo a Só Crianças a usar meu nome e meu WhatsApp para falar sobre a franquia.
+            Autorizo a Só Crianças a usar meu nome, e-mail e WhatsApp para falar sobre a franquia.
           </span>
         </label>
         {errors.lgpd ? <FieldError>{errors.lgpd}</FieldError> : null}
