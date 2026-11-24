@@ -752,6 +752,19 @@ export function HomePage() {
             nas unidades de Duque de Caxias, Nova Iguaçu e São Conrado.
           </p>
         </div>
+        <div className="border-t border-border">
+          <p className="mx-auto max-w-6xl px-5 py-5 text-xs text-muted-foreground">
+            Feito por{" "}
+            <a
+              href="https://acodagency.com.br"
+              target="_blank"
+              rel="noopener"
+              className="font-semibold text-brand underline-offset-4 transition-colors hover:text-ink hover:underline"
+            >
+              ACOD Agency
+            </a>
+          </p>
+        </div>
       </footer>
       <StickyCta />
     </MotionProvider>
