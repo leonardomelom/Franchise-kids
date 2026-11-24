@@ -2,6 +2,8 @@ import type { Metadata } from "next"
 import { Nunito } from "next/font/google"
 import Script from "next/script"
 
+import { CookieNotice } from "@/components/cookie-notice"
+
 import "./globals.css"
 
 const nunito = Nunito({
@@ -50,6 +52,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </noscript>
         ) : null}
         {children}
+        <CookieNotice />
         <Script id="datalayer-init" strategy="beforeInteractive">
           {`window.dataLayer=window.dataLayer||[];`}
         </Script>

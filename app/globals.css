@@ -289,3 +289,11 @@ details.faq[open]::details-content {
     scroll-behavior: auto;
   }
 }
+
+/* Aviso de cookies padrão do RD Station (biblioteca cookieconsent).
+   Fica escondido: a página usa o próprio aviso, components/cookie-notice.tsx. */
+.cc-window,
+.cc-revoke,
+.cc-grower {
+  display: none !important;
+}
